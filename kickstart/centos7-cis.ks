@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# raw url: https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/centos7-cis.ks
+# raw url: https://raw.githubusercontent.com/janth/vbox-snippets/master/centos7-cis.ks
 # copied from:  https://github.com/rosshamilton1/cissec
 
 # kickstart doc:

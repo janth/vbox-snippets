@@ -24,6 +24,8 @@ pxe_vm=${1:-pxetest$( date +'_%Y-%m-%d-%H:%M' )} # Arg1 or if not default to pxe
 # NOTE: ip of mother-host is 10.0.2.2 /{2..4}
 #el7_ks=https://raw.githubusercontent.com/sickbock/el7_kickstart/master/kickstart-el7-netboot-basic-install.cfg
 #el7_ks=https://raw.githubusercontent.com/rosshamilton1/cissec/master/centos7-cis.ks
+el7_ks=https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/centos7-cis.ks
+el7_ks=https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/centos7-minimal.cfg
 
 
 vbox_base=$( vboxmanage list systemproperties | awk -F: '$1 ~/^Default machine folder/ {print $2}' )
@@ -102,6 +104,9 @@ for img_ver in {6..7} ; do
 done
 
 ## # 2.3) Create PXE boot menu
+
+# https://wiki.centos.org/TipsAndTricks/KickStart
+
 logg "Creating PXE boot menu ${tftp_dir}/pxelinux.cfg/default"
 cat << E > ${tftp_dir}/pxelinux.cfg/default
 # https://wiki.centos.org/HowTos/PXE/PXE_Setup/Menus
