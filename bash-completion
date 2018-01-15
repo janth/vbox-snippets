@@ -1,0 +1,8 @@
+# virtualbox:
+# git clone https://github.com/tfmalt/bash-completion-virtualbox.git
+[ -f ~/git/bash-completion-virtualbox/vboxmanage_completion.bash ] && source ~/git/bash-completion-virtualbox/vboxmanage_completion.bash
+
+# vagrant
+# git clone https://github.com/mitchellh/vagrant
+[ -f ~/git/vagrant/contrib/bash/completion.sh ] && source ~/git/vagrant/contrib/bash/completion.sh
+
