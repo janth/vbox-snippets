@@ -27,6 +27,10 @@ pxe_vm=${1:-pxetest$( date +'_%Y-%m-%d-%H:%M' )} # Arg1 or if not default to pxe
 el7_ks=https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/centos7-cis.ks
 el7_ks=https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/centos7-minimal.cfg
 
+# or if starting simple web server with
+# python2 -m SimpleHTTPServer 8000
+el7_ks=https://10.0.2.2:8000/kickstart/centos7-minimal.cfg
+
 
 vbox_base=$( vboxmanage list systemproperties | awk -F: '$1 ~/^Default machine folder/ {print $2}' )
 # remove leading whitespace characters
