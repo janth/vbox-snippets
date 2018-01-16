@@ -12,14 +12,25 @@
 
 install
 lang en_GB.UTF-8
-keyboard --vckeymap=gb --xlayouts='gb'
+#keyboard --vckeymap=gb --xlayouts='gb'
+keyboard --vckeymap=no --xlayouts='no'
 timezone Europe/London --isUtc
 auth --useshadow --passalgo=sha512 			# CIS 6.3.1
 firewall --enabled
 services --enabled=NetworkManager,sshd
 eula --agreed
 ignoredisk --only-use=vda
-#reboot
+#reboot -eject
+
+selinux --permissive
+# python -c 'import crypt; print(crypt.crypt("My Password"))'
+#python -c "import crypt,random,string; print crypt.crypt(raw_input('clear-text password: '), '\$6\$' + ''.join([random.choice(string.ascii_letters + string.digits) for _ in range(16)]))"
+#clear-text password: vagrant
+#$64n946x4NEoA
+#user --groups=wheel --homedir=/home/vagrant --name=vagrant --password=$64n946x4NEoA --iscrypted --gecos="vagrant"
+user --groups=wheel --homedir=/home/vagrant --name=vagrant --password=vagrant --plaintext --gecos="vagrant user"
+
+skipx
 	 
 bootloader --location=mbr --append=" crashkernel=auto"
 zerombr
@@ -40,13 +51,22 @@ logvol /var/log/audit --vgname vg_root --name audit --size=1024
 # CIS 1.1.9-1.1.0
 logvol /home --vgname vg_root --name home --size=1024 --grow --fsoptions="nodev"
 	 
-rootpw yourpasswordhere
+#rootpw yourpasswordhere
+rootpw --plaintext centos
+
+services --enabled=NetworkManager,sshd
 
 repo --name=base --baseurl="http://mirrors.kernel.org/centos/7/os/x86_64/"
+repo --name="EPEL" --baseurl=http://ftp.uninett.no/linux/epel/7/x86_64/
+repo --name="puppetlabs" --baseurl=http://yum.puppetlabs.com/el/7/products/x86_64/
+repo --name="puppetlabs-deps" --baseurl=http://yum.puppetlabs.com/el/7/dependencies/x86_64/
+
+# Use network installation
+#url --url="http://217.18.193.226/images/centos/7_x64/"
 url --url="http://mirrors.kernel.org/centos/7/os/x86_64/"
 
 %packages --ignoremissing
-@core
+@Core
 aide 				# CIS 1.3.1
 setroubleshoot-server
 ntp				# CIS 3.6
@@ -70,6 +90,22 @@ cronie-anacron			# CIS 6.1.2
 -cups				# CIS 3.4
 -dhcp				# CIS 3.5
 -openldap			# CIS 3.7
+
+# JTM Additional packages
+puppet
+htop
+atop
+multitail
+vim-enhanced
+screen
+lsof
+curl
+telnet
+wget
+tmux
+bzip2
+deltarpm
+coreutils
 %end
 
 %post --log=/root/postinstall.log
@@ -107,14 +143,14 @@ systemctl enable auditd				# CIS 5.2.2
 systemctl enable crond				# CIS 6.1.2
 
 # Set bootloader password				# CIS 1.5.3
-cat << EOF2 >> /etc/grub.d/01_users
+#cat << EOF2 >> /etc/grub.d/01_users
 #!/bin/sh -e
 
-cat << EOF
-set superusers="bootuser"
-password_pbkdf2 bootuser grub.pbkdf2.sha512.10000.FE4D934335A0A9CB1B8E748713D1BDE766BB4041DEB297DB11674A1270BFC9B934C054B1BFEE8839AF9AE7DAD1F70D34D919FB617F09606636AC0EBE680F48FF.E01B493CA2F06BB62E03164F97FC98D6DB6A61BA5603DB299F98B5A08DE519C48730ECBBA0EB86BCE0DCFB02AF4C6EE19D9DF17F214CAE502D2078B4B8C59AC7
-EOF
-EOF2
+#cat << EOF
+#set superusers="bootuser"
+#password_pbkdf2 bootuser grub.pbkdf2.sha512.10000.FE4D934335A0A9CB1B8E748713D1BDE766BB4041DEB297DB11674A1270BFC9B934C054B1BFEE8839AF9AE7DAD1F70D34D919FB617F09606636AC0EBE680F48FF.E01B493CA2F06BB62E03164F97FC98D6DB6A61BA5603DB299F98B5A08DE519C48730ECBBA0EB86BCE0DCFB02AF4C6EE19D9DF17F214CAE502D2078B4B8C59AC7
+#EOF
+#EOF2
 
 sed -i s/'^GRUB_CMDLINE_LINUX="'/'GRUB_CMDLINE_LINUX="audit=1 '/ /etc/default/grub  # CIS 5.2.3
 grub_cfg='/boot/grub2/grub.cfg'

@@ -29,7 +29,7 @@ el7_ks=https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/ce
 
 # or if starting simple web server with
 # python2 -m SimpleHTTPServer 8000
-el7_ks=https://10.0.2.2:8000/kickstart/centos7-minimal.cfg
+el7_ks=http://10.0.2.2:8000/kickstart/centos7-minimal.cfg
 
 
 vbox_base=$( vboxmanage list systemproperties | awk -F: '$1 ~/^Default machine folder/ {print $2}' )
