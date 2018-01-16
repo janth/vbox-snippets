@@ -150,7 +150,7 @@ LABEL centos7
   KERNEL images/centos/7/vmlinuz
   #APPEND initrd=images/centos/6/initrd.img ks=http://10.0.2.2/kickstart/centos-ks.cfg ip=dhcp ksdevice=eth0 ramdisk_size=10000 ipv6.disable=1 biosdevnames=0 net.ifnames=0 unsupported_hardware text
 # or, if you can not use a webserver or have not yet created your own Kickstart configuration:
-  APPEND initrd=images/centos/7/initrd.img ks=${el7_ks} ramdisk_size=131072 ip=dhcp text lang=en_US keymap=no hostname=centos7
+  APPEND initrd=images/centos/7/initrd.img ks=${el7_ks} ramdisk_size=131072 ip=dhcp text ipv6.disable=1 vconsole.keymap=no vconsole.font=latarcyrheb-sun16 lang=en_US keymap=no hostname=centos7
 END
 
 # Loads pxelinux.cfg/tools
