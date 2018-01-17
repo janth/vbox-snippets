@@ -127,6 +127,10 @@ ONTIMEOUT local
 DEFAULT menu.c32
 
 ### GUI
+#DEFAULT vesamenu.c32
+#MENU RESOLUTION 800 600
+
+### GUI
 #UI vesamenu.c32
 # The splash.png file is a PNG image with resolution of 640x480 px
 #MENU BACKGROUND splash.png
