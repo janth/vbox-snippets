@@ -1,2 +1,31 @@
 # Add/change to /etc/default/grub.conf
 GRUB_CMDLINE_LINUX="crashkernel=512M rd.lvm.lv=centos/root rd.lvm.lv=centos/swap quiet ipv6.disable=1 vconsole.keymap=no vconsole.font=latarcyrheb-sun16"
+
+
+# Simple oneliner local webserver:
+
+https://gist.github.com/willurd/5720255
+
+# Add perl
+
+(
+cd 
+curl -L https://cpanmin.us | perl - App::cpanminus
+ln -s ../perl5/bin/cpanm bin
+cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+cpanm HTTP::Server::Brick   # install dependency
+)
+
+perl -MHTTP::Server::Brick -e '$s=HTTP::Server::Brick->new(port=>8000); $s->mount("/"=>{path=>"."}); $s->start'
+
+
+npm install -g http-server   # install dependency
+http-server -p 8000
+
+php -S 127.0.0.1:8000
+
+ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start'
+
+python2 -m SimpleHTTPServer 8000
+
+python3 -m http.server 8000
