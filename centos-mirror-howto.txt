@@ -1,0 +1,14 @@
+https://www.centos.org/download/mirrors/
+
+http://www.mirrorservice.org/sites/mirror.centos.org/7.4.1708/isos/x86_64/
+http://www.mirrorservice.org/sites/mirror.centos.org/7.4.1708/os/x86_64/
+
+http://www.mirrorservice.org/sites/mirror.centos.org/7/os/x86_64/Packages/?C=M;O=D
+
+http://www.mirrorservice.org/sites/mirror.centos.org/6/os/i386/
+
+mkdir -p repo/centos/7/os
+rsync -av --delete rsync://rsync.mirrorservice.org/mirror.centos.org/7/os/x86_64 repo/centos/7/os
+# -avSHP 
+
+https://gist.github.com/willurd/5720255
