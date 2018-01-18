@@ -17,7 +17,7 @@ function logg {
    echo "[${script_name}]: $1"
 }
 
-tstamp=$( date +'%Y-%m-%d-%H:%M' )
+tstamp=$( date +'%Y-%m-%d-%H-%M' )
 
 # CONFIG:
 pxe_vm=${1:-pxetest$( date +'_%Y-%m-%d-%H:%M' )} # Arg1 or if not default to pxetest
