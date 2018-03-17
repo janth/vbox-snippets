@@ -20,7 +20,7 @@ function logg {
 tstamp=$( date +'%Y-%m-%d-%H-%M' )
 
 # CONFIG:
-pxe_vm=${1:-pxetest$( date +'_%Y-%m-%d-%H:%M' )} # Arg1 or if not default to pxetest
+pxe_vm=${1:-pxetest$( date +'_%Y-%m-%d-%H-%M' )} # Arg1 or if not default to pxetest
 # NOTE: ip of mother-host is 10.0.2.2 /{2..4}
 #el7_ks=https://raw.githubusercontent.com/sickbock/el7_kickstart/master/kickstart-el7-netboot-basic-install.cfg
 #el7_ks=https://raw.githubusercontent.com/rosshamilton1/cissec/master/centos7-cis.ks
@@ -30,7 +30,7 @@ el7_ks=https://raw.githubusercontent.com/janth/vbox-snippets/master/kickstart/ce
 # or if starting simple web server with
 # python2 -m SimpleHTTPServer 8000
 el7_ks=http://10.0.2.2:8000/kickstart/centos7-minimal.cfg
-el7_ks=http://10.0.2.2/kickstart/centos7-minimal.cfg
+#el7_ks=http://10.0.2.2/kickstart/centos7-minimal.cfg
 
 
 vbox_base=$( vboxmanage list systemproperties | awk -F: '$1 ~/^Default machine folder/ {print $2}' )
@@ -211,3 +211,28 @@ vboxmanage createmedium disk  --filename ${hdd_name} --size ${disk0_g} --format 
 vboxmanage storageattach ${pxe_vm} --storagectl SATA --port 0 --type hdd --medium ${hdd_name}
 #cp -p ${tftp_dir}/pxelinux.0 ${tftp_dir}/${pxe_vm}.pxe
 ln -sfv pxelinux.0 ${tftp_dir}/${pxe_vm}.pxe
+
+vboxmanage storagectl ${pxe_vm} --name IDE --add ide
+vboxmanage storageattach ${pxe_vm} --storagectl IDE --port 0 --device 0 --type dvddrive --medium "repo/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso"
+# vboxmanage modifyvm ${pxe_vm} --boot1 disk
+
+ : << X
+vboxmanage list hostonlyifs
+Name:            vboxnet0
+GUID:            786f6276-656e-4074-8000-0a0027000000
+DHCP:            Disabled
+IPAddress:       192.168.56.1
+NetworkMask:     255.255.255.0
+IPV6Address:
+IPV6NetworkMaskPrefixLength: 0
+HardwareAddress: 0a:00:27:00:00:00
+MediumType:      Ethernet
+Wireless:        No
+Status:          Down
+VBoxNetworkName: HostInterfaceNetworking-vboxnet0
+
+vboxmanage hostonlyif create
+vboxmanage dhcpserver modify --netname HostInterfaceNetworking-vboxnet0 --ip 192.168.56.2 --netmask 255.255.255.0 --lowerip 192.168.56.50 --upperip 192.168.56.200 --enable
+
+vboxmanage modifyvm puppetest.dev --hostonlyadapter2 vboxnet0
+vboxmanage modifyvm puppetest.dev --nic2 hostonly

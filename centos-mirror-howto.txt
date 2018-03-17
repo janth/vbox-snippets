@@ -8,7 +8,10 @@ http://www.mirrorservice.org/sites/mirror.centos.org/7/os/x86_64/Packages/?C=M;O
 http://www.mirrorservice.org/sites/mirror.centos.org/6/os/i386/
 
 mkdir -p repo/centos/7/os
-rsync -av --delete rsync://rsync.mirrorservice.org/mirror.centos.org/7/os/x86_64 repo/centos/7/os
 # -avSHP 
+rsync -av --delete rsync://rsync.mirrorservice.org/mirror.centos.org/7/os/x86_64 repo/centos/7/os
+rsync -avSHP --delete  rsync://rsync.mirrorservice.org/mirror.centos.org/7/os/x86_64 repo/centos/7/os/
+# All:
+rsync -avSHP --delete  rsync://rsync.mirrorservice.org/mirror.centos.org/7/ repo/centos/7/
 
 https://gist.github.com/willurd/5720255

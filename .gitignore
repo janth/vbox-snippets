@@ -18,3 +18,7 @@ _book
 *.swp
 repo
 cd
+
+.DS_Store
+*.sw?
+.*~

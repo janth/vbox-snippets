@@ -1,0 +1,11 @@
+# Linux:
+vboxmanage list systemproperties | awk -F: '$1 ~ /Default machine folder/ {gsub(/ /, "", $2); print $2}'
+# $HOME/VirtualBox
+# $HOME/.virtualbox
+
+# Windows VM folder (using PowerShell):
+$data = vboxmanage list systemproperties | select-string "Default Machine Folder:" ; ($data[0] -split ':\s+' )[1]
+
+# %USERPROFILE%\VirtualBox VMs
+
+# %USERPROFILE%/\.VirtualBox
