@@ -1,0 +1,1 @@
+sudo VBoxManage extpack install --replace ~/.VirtualBox/Oracle_VM_VirtualBox_Extension_Pack-5.2.10.vbox-extpack
