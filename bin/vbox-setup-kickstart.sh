@@ -236,3 +236,4 @@ vboxmanage dhcpserver modify --netname HostInterfaceNetworking-vboxnet0 --ip 192
 
 vboxmanage modifyvm puppetest.dev --hostonlyadapter2 vboxnet0
 vboxmanage modifyvm puppetest.dev --nic2 hostonly
+X
