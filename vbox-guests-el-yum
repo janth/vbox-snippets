@@ -1,0 +1,4 @@
+yum -y install gcc kernel-devel kernel-headers make bzip2 perl deltarpm
+yum -y install epel-release
+yum -y install dkms
+
