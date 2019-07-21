@@ -1,0 +1,21 @@
+# /etc/systemd/system/vbox-booted.service
+# https://wiki.archlinux.org/index.php/systemd#Service_types
+# http://www.dsm.fordham.edu/cgi-bin/man-cgi.pl?topic=systemd.service
+# http://www.freedesktop.org/software/systemd/man/systemd-system.conf.html
+
+[Unit]
+Description=VBox booted property Service
+Requires=sshd.service
+After=sshd.service
+
+[Service]
+Type=oneshot
+#User=iperf
+ExecStart=/usr/bin/VBoxControl guestproperty set LogonCompleted true --flags TRANSIENT,TRANSRESET
+#Restart=on-abort
+
+#Timeoutsec
+
+
+[Install]
+WantedBy=multi-user.target
